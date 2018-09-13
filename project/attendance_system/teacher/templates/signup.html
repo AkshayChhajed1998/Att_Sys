@@ -1,0 +1,70 @@
+{% extends 'body.html' %}
+
+
+{% block title %}Teacher's SignUP{% endblock %}
+{% block content %}
+{% if request.user.is_authenticated and pk == None  %}
+
+<div class="ui center aligned container">
+<div class='ui compact message red inverted js'>
+    <h4 class="acme">You Are Already LoggedIn You Cannot SingnUP!!!</h4>
+    <a class="ui button purple button" href="/teacher/logout">Logout</a>
+</div>
+</div>
+{% else %}
+<div class="ui container">
+    <div class="ui center aligned container">
+        <h1>Teacher SignUP Form</h1>
+    </div>
+    <div class="seg">
+    <form action='' method='post' class="ui " novalidate enctype="multipart/form-data">
+        {% csrf_token %}
+         {{formset.management_form}}
+         <div></div>
+        {% if pk is None %}
+        {% for field in user_form %}
+            <div class="ui grid"><div class="five wide column"></div><div class=" ui nine wide column js error">{{field.errors}}</div></div>
+            <br><br>
+            <div class="ui grid">
+            <div class="indiv five wide column">{{field.label_tag}}</div><div class="ui input five wide column">{{field}}</div>
+            </div>
+            <div class="ui grid">
+                 <div class="pad5 indiv four wide column"></div><div class="pad5 ui input six wide column "><span class="HT">{{ field.help_text|safe }}</span></div>
+            </div>
+        {% endfor %}
+        {% else %}
+        {% for field in user_form %}
+        {% if field.name != 'username' and field.name != 'password1' and field.name != 'password2' %}
+            <div class="ui grid"><div class="five wide column"></div><div class=" ui nine wide column js error">{{field.errors}}</div></div>
+            <br><br>
+            <div class="ui grid">
+            <div class="indiv five wide column">{{field.label_tag}}</div><div class="ui input five wide column">{{field}}</div>
+            </div>
+            <div class="ui grid">
+                 <div class="pad5 indiv four wide column"></div><div class="pad5 ui input six wide column "><span class="HT">{{ field.help_text|safe }}</span></div>
+            </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        
+        {% for form in formset %}
+        {% for field in form %}
+        {% if field.name != "user" and field.name != "DELETE" %}
+        {{field.errors}}
+            <br><br>
+            <div class="ui grid">
+            <div class="pad5 indiv five wide column">{{field.label_tag}}</div><div class="pad5 ui input five wide column">{{field}}</div>
+            </div>
+        <div class="HT">{{ field.help_text|safe }}</div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+        <br><br>
+        <span class='ui center aligned container'>
+        <input type="submit" class='ui button inverted green'>
+        </span>
+    </form>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

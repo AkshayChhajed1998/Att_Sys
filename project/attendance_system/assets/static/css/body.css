@@ -1,0 +1,83 @@
+
+.user_bar{
+    color:#99ff22;
+    font-size: 15px;
+}
+
+h1 {
+    color: #00ffff;
+    font-size: 40px;
+}
+
+.seg{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px; 
+}
+
+.floatingdivs{
+    float:left;
+    clear:none;
+}
+
+.top {
+    margin-top: 130px;
+    margin-bottom:70px;
+}
+
+.container{
+    background:rgba(0,0,0,0.5) !important;
+}
+
+p {
+    color: #99ff22;
+}
+
+.js{
+    font-family: 'Josefin Slab','Sans-serif' !important;
+}
+
+.acme{
+    font-family: 'Acme','sans-serif' !important;
+}
+
+body {
+     /*background: url(http://sfwallpaper.com/images/background-wallpaper-images-8.jpg);
+    background: url('https://previews.123rf.com/images/nuttakit/nuttakit1111/nuttakit111100016/11156782-below-green-grass-on-wood-for-web-page-background.jpg');
+    background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%);*/
+    background: url('https://wallpapersite.com/images/pages/pic_w/901.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.indiv{
+    font-family: 'Acme';
+    color:rgba(125,255,75,1);
+    font-size: 20px;
+}
+
+.HT{
+    color:yellow;
+}
+
+.error{
+    color:red;
+    font-family: 'Acme';
+    font-size:17px;
+}
+
+.pad5{
+    padding-top:5px !important;
+    padding-bottom:5px !important;
+}
+
+.divider{
+    padding-left:0px !important;
+    padding-right:0px !important;
+}
+
+.f16{
+    font-size: 16px !important;
+}
