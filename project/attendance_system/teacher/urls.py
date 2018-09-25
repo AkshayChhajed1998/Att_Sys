@@ -8,4 +8,6 @@ urlpatterns=[
         path('dashboard/profile/<int:pk>/',dashboard_profile,name='dashboard_profile'),
         path('dashboard/analysis/<int:pk>/',dashboard_analysis,name='dashboard_analysis'),
         path('edit/<int:pk>/',edit_Tprofile,name='editprofile'),
+        path('dashboard/sheets',sheets),
+        path('its/ajax/',firstAJAX),
         ]

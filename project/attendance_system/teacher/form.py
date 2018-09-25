@@ -6,8 +6,7 @@ from subject.models import subject
 from User.models import User
 from django.core.files.storage import FileSystemStorage
 
-attr=('image','mobile_number','department','dob','address','years_of_experience','last_lecture','education','subject')
-
+attr=('image','class_TG','start_student_rollno','last_student_rollno','mobile_number','department','dob','address','years_of_experience','last_lecture','education','subject','is_HOD',)
 
 
 class TeacherProfileDataForm(forms.ModelForm):
@@ -26,6 +25,7 @@ class edit(forms.ModelForm):
     email = forms.EmailField()
     first_name = forms.CharField()
     last_name = forms.CharField()
+    subject=forms.ModelMultipleChoiceField( queryset=subject.objects.all(),widget=forms.CheckboxSelectMultiple())
     class Meta:
         model=teacherprofile
         fields=('email','first_name','last_name')+attr
@@ -49,13 +49,15 @@ class edit(forms.ModelForm):
                                                                             address=self.cleaned_data["address"],
                                                                             years_of_experience=self.cleaned_data["years_of_experience"],
                                                                             last_lecture=self.cleaned_data["last_lecture"],
-                                                                            education=self.cleaned_data["education"])
+                                                                            education=self.cleaned_data["education"],
+                                                                            class_TG=self.cleaned_data['class_TG'])
             if self.cleaned_data['image']:
                 teacherprofile.objects.filter(user=User.objects.get(pk=pk)).update(image=self.cleaned_data["image"])  #handled differently from other update soo that leaving the field empty should not clear image
                         
             su=False                                                    
+            teacherprofile.objects.get(user=User.objects.get(pk=pk)).subject.clear()
             for sub in self.cleaned_data["subject"]:
-                su=teacherprofile.objects.filter(user=User.objects.get(pk=pk)).subject.add(sub)
+                su=teacherprofile.objects.get(user=User.objects.get(pk=pk)).subject.add(sub)
                                             
             return (uu and tu)
             

@@ -12,7 +12,7 @@ class TeacherUserAdmin(admin.ModelAdmin):
     model = teacherprofile
     list_display = ['user']
     fieldsets=(
-            ('Profile',{'fields':('teacher_id','subject','image','mobile_number','department','last_lecture','dob','address','years_of_experience','education')}),
+            ('Profile',{'fields':('teacher_id','is_HOD')}),
         )
         
     def has_add_permission(self, request):

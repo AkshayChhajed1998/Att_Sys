@@ -12,7 +12,7 @@ class GenericCreationForm(UserCreationForm):
 class Admin_GenericCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields=('username','email','is_active','first_name','last_name','is_student','is_teacher')
+        fields=('username','email','is_active','first_name','last_name')
         
 
 class GenericChangeForm(UserChangeForm):

@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import Student
-admin.site.register(Student)
+from .models import studentprofile
+from .forms import StudentProfileDataForm
 
-class StudentUserAdmin(admin.ModelsAdmin):
-    fields=('name','ID')    
+class StudentUserAdmin(admin.ModelAdmin):
+    form=StudentProfileDataForm
+    add_form=None
     
+admin.site.register(studentprofile, StudentUserAdmin)

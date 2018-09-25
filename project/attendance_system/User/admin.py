@@ -15,7 +15,7 @@ class GenericUserAdmin(UserAdmin):
     fieldsets=(
             (None,{'fields':('username','email','password')}),
             ('PERSONAL INFO',{'fields':('first_name','last_name')}),
-            ('Privelege',{'fields':('is_active','is_staff','is_student','is_teacher','is_superuser',)})
+            ('Privelege',{'fields':('is_active','is_staff','is_superuser',)})
         )
     
 admin.site.unregister(Group)

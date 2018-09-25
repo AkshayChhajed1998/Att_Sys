@@ -5,27 +5,26 @@
 {% block content %}
 <div class='top'>
     
-    <div class='ui grid'>
-        <div class="four wide column">
+    <div class='ui grid fixed'>
+        <div class="three wide column">
             
         </div>
-        <div class="eight wide column">
-            <div class='ui center aligned container'>
-                <h1>LOGIN</h1>
+        <div class="four wide column">
+            <div class='ui center aligned container shad'>
+                <h1 class="js heading">LOGIN</h1>
                 <form action='user/login/' method='post'>
                     {% csrf_token %}
+                    <!--<span class="indiv">Username:</span>-->
+                    <span class="ui input">
+                    <input type='text' name='username' placeholder="Username">
+                    </span>
                     <br><br>
-                    <span class="indiv">Username:</span>
-                    <span class="ui input">
-                    <input type='text' name='username'>
-                    </span>
-                    <br><br><br>
-                    <span class="indiv">Password:</span>
+                    <!--<span class="indiv">Password:</span>-->
                     </span>
                     <span class="ui input">
-                    <input type='password' name='password'>
+                    <input type='password' name='password' placeholder="Password">
                     </span>
-                    <br><br><br>
+                    <br><br>
                     {% if request.user.is_authenticated %}
                     <input type='submit' class='ui button green inverted' disabled>
                     <p class="error">You are Already Logged In</p>
@@ -36,7 +35,7 @@
                 </form>
             </div>
         </div>
-        <div class="four wide column">
+        <div class="nine wide column">
             
         </div>
     </div>

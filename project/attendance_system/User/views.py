@@ -11,20 +11,19 @@ from django.urls import reverse
 # Create your views here.
 def Login(request):
     if request.method == "POST" : 
-        print(request.user)
         user=authenticate(request,username=request.POST.get("username"),password=request.POST.get("password"))
         if user is not None:
             login(request,user)
-            print(request.user)
+        
             if request.user.is_teacher:
                 request.session["type_profile"]="teacher"
                 return redirect('/teacher/dashboard/profile/'+str(request.user.pk)+'/')
             elif request.user.is_student:
                 request.session["type_profile"]="student"
-                return redirect('/student/dashboard/'+str(request.user.pk)+'/')
+                return redirect('/student/dashboard/profile/'+str(request.user.pk)+'/')
             else:
                 request.session["type_profile"]=""
-                errors= [err(e="Only Teacher and Student can Login Here.Are You Staff Member goo Here",link="/admin/"),err(e="IF NOT",link="/user/logout")]
+                errors= [err(e="Only Teacher and Student can Login Here.Are You Staff Member go Here",link="/admin/"),err(e="IF NOT",link="/user/logout")]
                 return render(request,'error.html',{'errors':errors})
         else:
             errors=[err(e="Enter Correct LOGIN Credentials",link="/")]

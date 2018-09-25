@@ -44,9 +44,12 @@ INSTALLED_APPS = [
     'student',
     'User',
     'subject',
-    #'attendance',
+    'attendance',
+    'multiselectfield',
+    'classes',
     
     'widget_tweaks',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
