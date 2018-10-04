@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     
     'widget_tweaks',
     'django_extensions',
+    'temp_att',
+    'STCrelation',
 ]
 
 MIDDLEWARE = [

@@ -10,11 +10,11 @@
                 {% csrf_token %} 
                 <div class="ui grid">
                 {% for field in form %}
-                {% if field.name != 'is_HOD' %}
+                
                 <div class="one wide column"></div>
                 <div class="six wide column ui input"><label class="light">{{field.label}}:</label><br>{% render_field field placeholder=field.label %}</div>
                 <div class="one wide column"></div>
-                {% endif %}
+                
                 {% endfor %}
                 </div>
                 <div class="ui center aligned container">

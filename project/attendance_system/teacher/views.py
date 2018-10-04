@@ -17,6 +17,7 @@ from django.template.loader import get_template
 from django.template import Template
 from .graph_def import *
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 app_name='teacher'
@@ -136,7 +137,7 @@ def dashboard_analysis(request,pk):
                 display=display.render({'classes':Classes,'date':date,'graph':div})
             else:
                 display = get_template('teacher/dashboard/HOD_search.html')
-                atten=searcher(name,TeacherProfile.class_TG.pk,TeacherProfile.is_HOD)
+                atten=searcher(name,request.POST['stype'],TeacherProfile.class_TG.pk,TeacherProfile.is_HOD)
                 print(name)
                 display = display.render({'classes':Classes,'class_id':TeacherProfile.class_TG_id,'date':date,'name':name,'atten':atten})
         
@@ -148,7 +149,7 @@ def dashboard_analysis(request,pk):
                 display=display.render({'classes':Classes,'class_id':TeacherProfile.class_TG_id,'date':date,'graph':div,'def':Def})
             else:
                 display = get_template('teacher/dashboard/Teachers_search.html')
-                atten=searcher(name,TeacherProfile.class_TG.pk,TeacherProfile.is_HOD)
+                atten=searcher(name,request.POST['stype'],TeacherProfile.class_TG.pk,TeacherProfile.is_HOD)
                 print(name)
                 display = display.render({'classes':Classes,'class_id':TeacherProfile.class_TG_id,'date':date,'name':name,'atten':atten})
         
@@ -157,7 +158,15 @@ def dashboard_analysis(request,pk):
         return HttpResponse("404 bad URL!!!!")
         
 def sheets(request):
-    return render(request,'teacher/dashboard/sheets.html',{})
+    teacher=User.objects.get(pk=request.user.pk)
+    TeacherProfile=teacherprofile.objects.get(user=teacher)
+    Classes = classes.objects.all()
+    subjects =TeacherProfile.subject.all()
+    table =get_template('table_grid/tgrid.html')
+    head_pop=[]
+    rows=[]
+    table=table.render({'head_pop':head_pop,'rows':rows})
+    return render(request,'teacher/dashboard/sheets.html',{'subjects':subjects,'classes':Classes,'teacher':teacher,'TeacherProfile':TeacherProfile,'table':table})
     
 #==============================================================================================================================#
 
@@ -168,3 +177,8 @@ def sheets(request):
 def firstAJAX(request):
     return HttpResponse('<h1>HURRY!!!!</h1>')
     
+@csrf_exempt
+def first(request):
+    print(json.loads(request.POST['1'])['rollno'])
+    print(datetime.now())
+    return HttpResponse('<h1>hey now!!!!</h1>')

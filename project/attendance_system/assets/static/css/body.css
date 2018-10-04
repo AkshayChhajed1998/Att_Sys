@@ -32,9 +32,10 @@
 }
 
 .heading{
+    font-family: Acme;
     font-size: 35px;
     font-weight: bold;
-    color:#FF8F00;
+    color:#00FFFF;
 }
 
 .z_in{
@@ -114,4 +115,7 @@ body {
 }
 .collapsing{
     padding:0px !important;
+}
+.success{
+    color:#00FF00;
 }

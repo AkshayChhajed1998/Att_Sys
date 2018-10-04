@@ -1,13 +1,6 @@
 {% extends 'body.html' %}
 {% load static %}
 {% block title %}DashBoard{% endblock %}
-{% block link_scripts %}
-<link rel="stylesheet" href="{%static 'slick/slick.grid.css'%}" type="text/css"/>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.threedubmedia/2.2/event.drag/jquery.event.drag.js'></script>
-<script src="{%static 'slick/slick.core.js' %}"></script>
-<script src="{%static 'slick/slick.formatters.js' %}"></script>
-<script src="{%static 'slick/slick.grid.js' %}"></script>
-{% endblock %}
 {% block content %}
 {% if request.user.is_authenticated %}
 <div class="ui grid">
@@ -34,11 +27,25 @@
 </div>
 </div>
 <div class="twelve wide column shad">
-<div class="ui container segment shad">
+<select class="ui selection dropdown" name="class" id="class">
+  {% for class in classes %}
+  {% if class_id != class.pk %}
+  <option id="{{class.pk}}" value={{class.pk}}>{{class}}</option>
+  {% else %}
+  <option id="{{class.pk}}" value={{class.pk}} selected="selected">{{class}}</option>
+  {% endif %}
+  {% endfor %}
+</select>
+<select class="ui selection dropdown" name="class" id="subject">
+  {% for sub in subjects %}
+  <option id="{{sub.pk}}" value={{sub.pk}}>{{sub}}</option>
+  {% endfor %}
+</select>
 
-{% block analysis %}
-      <div id="myGrid" style="width:700px;height:500px;"></div>
-{% endblock %}
+<div class="ui input"><input type="text" name="date" placeholder="Date" class="date"></div>
+<input type="submit" value="SHOW" class="ui button inverted yellow" id="ajax_submit">
+<div class="ui container segment shad" id='TgridHolder'>
+  {{table}}
 </div>
 </div>
 </div>
@@ -46,58 +53,4 @@
 
 {% endif %}
 
-<script type="text/javascript" src="{% static 'js/teacher_a.js' %}">
-</script>
-<script type="text/javascript">
-</script>
-<script>
-   // a standard formatter returns a string 
-  function formatter(row, cell, value, columnDef, dataContext) {
-      return value;
-  }
-  // an extended formatter returns an object { text , removeClasses, addClasses }
-  // the classes are removed and then added during an update, or just added on cell creation
-  function statusFormatter(row, cell, value, columnDef, dataContext) {
-      var rtn = { text: value, removeClasses: 'red orange green' };
-      if (value !== null || value !== "") {
-        if (value < 33) {
-          rtn.addClasses = "red";
-        } else if (value < 66) {
-          rtn.addClasses =  "orange";
-        } else {
-          rtn.addClasses =  "green";
-        }
-      }
-      return rtn;
-  }
-  var grid;
-  var data = [];
-  var columns = [
-    {id: "title", name: "Title", field: "title", width: 120, cssClass: "cell-title", formatter: formatter},
-    {id: "duration", name: "Duration", field: "duration"},
-    {id: "%", name: "% Complete", field: "percentComplete", width: 80, resizable: false, formatter: Slick.Formatters.PercentCompleteBar},
-    {id: "status", name: "Status", field: "percentComplete", width: 50, resizable: false, formatter: statusFormatter},
-    {id: "start", name: "Start", field: "start", minWidth: 60},
-    {id: "finish", name: "Finish", field: "finish", minWidth: 60},
-    {id: "effort-driven", name: "Effort Driven", sortable: false, width: 80, minWidth: 20, maxWidth: 80, cssClass: "cell-effort-driven", field: "effortDriven", formatter: Slick.Formatters.Checkmark}
-  ];
-  
-  var options = {
-    editable: false,
-    enableAddRow: false,
-    enableCellNavigation: true
-  };
-  $(function () {
-    for (var i = 0; i < 5; i++) {
-      var d = (data[i] = {});
-      d["title"] = "<a href='#' tabindex='0'>Task</a> " + i;
-      d["duration"] = "5 days";
-      d["percentComplete"] = Math.min(100, Math.round(Math.random() * 110));
-      d["start"] = "01/01/2009";
-      d["finish"] = "01/05/2009";
-      d["effortDriven"] = (i % 5 == 0);
-    }
-    grid = new Slick.Grid("#myGrid", data, columns, options);
-  })
-</script>
 {% endblock %}

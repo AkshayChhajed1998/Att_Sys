@@ -96,13 +96,17 @@ def totalatt(subject,Class):
             
     return len(temp_time_list)
     
-def searcher(name,Class,is_HOD):
+def searcher(name,stype,Class,is_HOD):
     names=name.split()
-    if len(names) == 2:
-        q=Q(first_name__iexact=names[0]) & Q(last_name__iexact=names[1]) & Q(is_student=True)
+    if stype=='1':
+        if len(names) == 2:
+            q=Q(first_name__iexact=names[0]) & Q(last_name__iexact=names[1]) & Q(is_student=True)
+        else:
+            q=(Q(first_name__iexact=names[0]) | Q(last_name__iexact=names[0])) & Q(is_student=True)
+        lis_stu=User.objects.filter(q).values_list('studentprofile',flat=True)
     else:
-        q=(Q(first_name__iexact=names[0]) | Q(last_name__iexact=names[0])) & Q(is_student=True)
-    lis_stu=User.objects.filter(q).values_list('studentprofile',flat=True)
+        q=Q(roll_no__iexact=names[0])
+        lis_stu=studentprofile.objects.filter(q).values_list('user_id',flat=True)
     print(lis_stu)
     cont_list=[]
     subj = subject.objects.all().values_list('id',flat=True)

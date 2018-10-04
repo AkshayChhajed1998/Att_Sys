@@ -26,6 +26,8 @@ urlpatterns = [
     path('teacher/',include('teacher.urls')),
     path('user/',include('User.urls')),
     path('student/',include('student.urls')),
+    path('att/',include('temp_att.urls')),
+    path('attendance/',include('attendance.urls')),
 ]
 
 if settings.DEBUG is True:

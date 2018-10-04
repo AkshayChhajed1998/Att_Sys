@@ -22,7 +22,8 @@ class teacherprofile(models.Model):
     years_of_experience=models.PositiveSmallIntegerField(blank=True,default=0)
     education=models.CharField(max_length=50,blank=True,default='')
     subject = models.ManyToManyField(subject,null=True,blank=True)
-    is_HOD = models.BooleanField(default='False',blank='True')
+    is_HOD = models.BooleanField(default=False,blank=True)
+    RFID = models.CharField(default='',blank=True,max_length=8)
     
     def __str__(self):
         return self.teacher_id

@@ -12,6 +12,11 @@ class StudentProfileDataForm(forms.ModelForm):
         model=studentprofile
         fields=('student_id','image','mobile_number','parents_number','department','semester','dob','address','roll_no','batch','Class')
         
+class StudentProfileDataFormAdmin(forms.ModelForm):
+    class Meta:
+        model=studentprofile
+        fields=('student_id','RFID')
+        
 class edit_student(forms.ModelForm):
     email=forms.EmailField()
     first_name=forms.CharField()
@@ -20,7 +25,7 @@ class edit_student(forms.ModelForm):
     
     class Meta:
         model= studentprofile
-        fields=attributes + ('email','first_name','last_name')
+        fields=attributes + ('email','first_name','last_name','subject')
         
     def __init__(self,em,fn,ln,*args,**kwargs):
         super(edit_student,self).__init__(*args,**kwargs)

@@ -4,11 +4,18 @@ from User.models import User
 from User.form import GenericCreationForm
 from django.forms.models import inlineformset_factory
 from .models import studentprofile
+from subject.models import subject
 from attendance_system.err import err
-from django import forms
+from django import forms as f
 from django.contrib.auth.decorators import login_required
 import student.forms as forms 
-
+from django.db.models import Q
+from attendance.models import attendance
+from .functions import *
+import statistics
+import plotly.offline as py
+import plotly.graph_objs as go
+import json
 # Create your views here.
 @login_required
 def edit_Sprofile(request,pk):
@@ -34,7 +41,7 @@ def edit_Sprofile(request,pk):
 
 def new_studentform(request):
     user_form=GenericCreationForm()
-    profileinlineformset= inlineformset_factory(User,studentprofile,fields=('image','mobile_number','parents_number','department','semester','dob','address','roll_no','batch','Class','subject'),widgets={'subject':forms.CheckboxSelectMultiple(attrs={'class':'checkbox'})})             
+    profileinlineformset= inlineformset_factory(User,studentprofile,fields=('image','mobile_number','parents_number','department','semester','dob','address','roll_no','batch','Class','subject'),widgets={'subject':f.CheckboxSelectMultiple(attrs={'class':'checkbox'})})             
     formset=profileinlineformset()
     
     if request.method=='POST':
@@ -70,9 +77,23 @@ def dashboard_profile(request,pk):
 @login_required
 def dashboard_analysis(request,pk):
     if request.user.pk==pk:
+        data=[]
+        total_percent=[]
         student=User.objects.get(pk=pk)
         StudentProfile=studentprofile.objects.get(user=student)
-        return render(request,'student/dashboard/analysis.html',{'student':student,'StudentProfile':StudentProfile})
+        for sub in StudentProfile.subject.all():
+            q=(Q(subject=sub)&Q(student=StudentProfile.user_id))
+            att_count=attendance.objects.filter(q).count()
+            att_total=totalatt(sub,StudentProfile.Class)
+            percent=round(att_count/(att_total+0.00001)*100)
+            total_percent.append(percent)
+            l=[sub,att_count,att_total,percent]
+            data.append(l)
+        all_subjects_total=statistics.mean(total_percent)
+        graph=piechart(StudentProfile)
+        return render(request,'student/dashboard/analysis.html',{'student':student,'StudentProfile':StudentProfile,'data':data,'all_subjects_total':all_subjects_total,'graph':graph})
+        
+        
     else:
         return HttpResponse("Bad Url!!!")
         

@@ -10,4 +10,5 @@ urlpatterns=[
         path('edit/<int:pk>/',edit_Tprofile,name='editprofile'),
         path('dashboard/sheets',sheets),
         path('its/ajax/',firstAJAX),
+        path('first/',first),
         ]

@@ -18,7 +18,8 @@ class studentprofile(models.Model):
     roll_no=models.CharField(max_length=6,unique=False,blank=True)
     Class=models.ForeignKey(classes,on_delete=models.CASCADE,blank=True,null=True)
     batch=models.CharField(max_length=1,default='',blank=True)
-    subject=models.ManyToManyField(subject,blank=True)
+    subject=models.ManyToManyField(subject,blank=True,null= True)
+    RFID=models.CharField(max_length=8,blank=True,default='')
     
     def __str__(self):
         return "{}---{}".format(self.roll_no,self.user_id)
