@@ -27,13 +27,26 @@ def piechart(stud_pro):
         Absent_value+=att_total-att
         values.append(att)
         c=c+1
-        
     colors_list=['#06858C', '#45C48B','#323741','#FFD039','#F47942']
     colors=[]
     for i in range(c):
         colors.append(colors_list[i])
     labels.append("ABSENT")
     values.append(Absent_value)
-    colors.append('#FFFFFF')
-    trace = go.Pie(labels=labels,values=values,textfont=dict(size=20),marker=dict(colors=colors,line=dict(color='#000000', width=2)))
+    colors.append
+    trace = go.Pie(labels=labels,values=values,textfont=dict(size=20),marker=dict(colors=colors,line=dict(color='#000000', width=2)),showlegend=False)
     return py.plot([trace],include_plotlyjs=False,output_type="div",config={'show_link':False})  
+    
+def bar_graph(dat):
+    
+    x = []
+    y = []
+    y2 = []
+    for sub in dat:
+        x.append(str(sub[0]))
+        y2.append(sub[1])
+        y.append(sub[2])
+    trace1 = go.Bar(x=x,y=y,text="Total Attendance",marker=dict(color='rgb(158,202,225)',line=dict(color='rgb(8,48,107)',width=1.5),),opacity=0.6)
+    trace2 = go.Bar(x=x,y=y2,text="Attendance",marker=dict(color='rgb(58,200,225)',line=dict(color='rgb(8,48,107)',width=1.5),),opacity=0.6)
+    data = [trace1,trace2]
+    return py.plot(data,include_plotlyjs=False,output_type="div",config={'show_link':False})

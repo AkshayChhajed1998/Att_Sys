@@ -57,8 +57,7 @@ def edit_Tprofile(request,pk):
 def new_teacherform(request):
     
     user_form =GenericCreationForm()
-    profileinlineformset = inlineformset_factory(User,teacherprofile,fields=('image','class_TG','start_student_rollno','last_student_rollno','mobile_number','department','address','years_of_experience','education','subject','dob','last_lecture'),
-                                                widgets={'subject':form.CheckboxSelectMultiple(attrs={'class':'checkbox'})})
+    profileinlineformset = inlineformset_factory(User,teacherprofile,fields=('image','class_TG','start_student_rollno','last_student_rollno','mobile_number','department','address','years_of_experience','education','dob','last_lecture','subject'),widgets={'subject':form.CheckboxSelectMultiple(attrs={'class':'checkbox'})})
     formset = profileinlineformset()
     formset.forms[0].fields['last_lecture'].widget.attrs.update({'class':'datetime'})
     
@@ -72,7 +71,7 @@ def new_teacherform(request):
             created_user.is_teacher=True
             created_user.is_active=False
             formset = profileinlineformset(request.POST,request.FILES,instance=created_user)
-            
+            print(formset)
             if formset.is_valid():
                 #fs=FileSystemStorage()
                 #filename=fs.save(request.FILES["image"].name,request.FILES["image"])
@@ -83,8 +82,12 @@ def new_teacherform(request):
                 #    login(request,user)
                 #    return redirect('dashboard',pk=user.pk)
 
-                errors=[err(e="Please Reach to Admin and Register Your ID.",link=" "),err(e="Your Account is InActive It will be activated by admin.",link=" ")]
-                return render(request,'error.html',{'errors':errors})
+                msg=[err(e="Please Reach to Admin and Register Your ID.",link=" "),err(e="Your Account is InActive It will be activated by admin.",link=" ")]
+                return render(request,'error.html',{'errors':msg})
+            else:
+                msg=[err(e="User Information Form is INVALID!!!",link=" "),err(e="*Ensure That You are TG for Class with no TG Yet.",link=" ")]
+        else:
+            msg=[err(e="Try Different Username or may be password!!",link=" ")]
     
     return render(request,'teacher/signup.html',{
             "pk":None,
@@ -96,6 +99,8 @@ def new_teacherform(request):
 #==============================================================================================================================#
 @login_required()
 def dashboard_profile(request,pk):
+    print(request.user)
+    print(request.user.is_authenticated)
     if request.user.pk == pk:
         teacher=User.objects.get(pk=pk)
         TeacherProfile=teacherprofile.objects.get(user=teacher)
@@ -150,7 +155,6 @@ def dashboard_analysis(request,pk):
             else:
                 display = get_template('teacher/dashboard/Teachers_search.html')
                 atten=searcher(name,request.POST['stype'],TeacherProfile.class_TG.pk,TeacherProfile.is_HOD)
-                print(name)
                 display = display.render({'classes':Classes,'class_id':TeacherProfile.class_TG_id,'date':date,'name':name,'atten':atten})
         
         return render(request,'teacher/dashboard/analysis.html',{'teacher':teacher,'TeacherProfile':TeacherProfile,'display':display})

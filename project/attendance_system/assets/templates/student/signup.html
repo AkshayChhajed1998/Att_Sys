@@ -1,5 +1,8 @@
 {% extends 'body.html' %}
 {% load widget_tweaks %}
+{% load static %}
+{% block link_scripts %}<link rel='stylesheet' href='{% static "css/dash.css" %}'>{% endblock %}
+
 
 {% block title %}Student's SignUP{% endblock %}
 {% block content %}

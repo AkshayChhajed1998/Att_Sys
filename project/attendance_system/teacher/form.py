@@ -6,7 +6,7 @@ from subject.models import subject
 from User.models import User
 from django.core.files.storage import FileSystemStorage
 
-attr=('image','class_TG','start_student_rollno','last_student_rollno','mobile_number','department','dob','address','years_of_experience','last_lecture','education','subject','is_HOD',)
+attr=('image','class_TG','start_student_rollno','last_student_rollno','mobile_number','department','dob','address','years_of_experience','last_lecture','subject','education','is_HOD',)
 
 
 class TeacherProfileDataForm(forms.ModelForm):
@@ -28,7 +28,7 @@ class edit(forms.ModelForm):
     subject=forms.ModelMultipleChoiceField( queryset=subject.objects.all(),widget=forms.CheckboxSelectMultiple())
     class Meta:
         model=teacherprofile
-        fields=('email','first_name','last_name')+attr
+        fields=('email','first_name','last_name','subject')+attr
         
     def __init__(self,em,fn,ln,*args,**kwargs):
         super(edit,self).__init__(*args,**kwargs)

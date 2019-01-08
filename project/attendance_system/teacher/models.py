@@ -21,12 +21,12 @@ class teacherprofile(models.Model):
     address=models.CharField(max_length=100,blank=True,default='')
     years_of_experience=models.PositiveSmallIntegerField(blank=True,default=0)
     education=models.CharField(max_length=50,blank=True,default='')
-    subject = models.ManyToManyField(subject,null=True,blank=True)
+    subject=models.ManyToManyField(subject,blank=True)
     is_HOD = models.BooleanField(default=False,blank=True)
     RFID = models.CharField(default='',blank=True,max_length=8)
     
     def __str__(self):
-        return self.teacher_id
+        return str(self.teacher_id)
         
     def save(self,*args,**kwargs):
         super(teacherprofile,self).save(*args,**kwargs)

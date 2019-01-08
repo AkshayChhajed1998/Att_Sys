@@ -15,15 +15,7 @@
   <a class="active teal item" href='/student/dashboard/analysis/{{request.user.pk}}'>
     Analysis
   </a>
-  <a class="item">
-    Updates
-  </a>
-  <div class="item">
-    <div class="ui transparent icon input">
-      <input type="text" placeholder="Search mail...">
-      <i class="search icon"></i>
-    </div>
-  </div>
+  
 </div>
 </div>
 <div class="twelve wide column">
@@ -58,6 +50,7 @@
     </tbody>
   </table>
   {{graph|safe}}
+  {{graph2|safe}}
   </div>
 </div>
 </div>

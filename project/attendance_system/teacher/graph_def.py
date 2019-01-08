@@ -120,6 +120,22 @@ def searcher(name,stype,Class,is_HOD):
                                 for sub in subj]
             cont=[cont,studentprofile.objects.get(user_id=id)]
             cont_list.append(cont)
+            
     return cont_list
     
+def bar_graph(dat):
+    
+    x = []
+    y = []
+    y2 = []
+    for sub in dat:
+        x.append(str(sub[0]))
+        y2.append(sub[1])
+        y.append(sub[2])
+    trace1 = go.Bar(x=x,y=y,text="Total Attendance",marker=dict(color='rgb(158,202,225)',line=dict(color='rgb(8,48,107)',width=1.5),),opacity=0.6)
+    trace2 = go.Bar(x=x,y=y2,text="Attendance",marker=dict(color='rgb(58,200,225)',line=dict(color='rgb(8,48,107)',width=1.5),),opacity=0.6)
+    data = [trace1,trace2]
+    return py.plot(data, filename='grouped-bar-direct-labels',include_plotlyjs=False,output_type="div",config={'show_link':False})
+    
 
+    

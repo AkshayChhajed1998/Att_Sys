@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 
+
 urlpatterns = [
     path('',views.homepageview),
     path('admin/', admin.site.urls),
@@ -28,6 +29,7 @@ urlpatterns = [
     path('student/',include('student.urls')),
     path('att/',include('temp_att.urls')),
     path('attendance/',include('attendance.urls')),
+    path(r'api/',include('api.urls')),
 ]
 
 if settings.DEBUG is True:

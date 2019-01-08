@@ -11,6 +11,9 @@ from django.db.models import Q
 from attendance.models import attendance
 from subject.models import subject
 from STCrelation.models import STCrelation
+import threading
+from . import way2sms
+
 # Create your views here.
 @csrf_exempt
 def save1(request):
@@ -32,7 +35,12 @@ def save(request):
             obj.FLAG = True
             obj.Class = classes.objects.get(id=Class)
             obj.save()
-            print("save1")
+            print("Teacher has entered")
+#SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS            
+            timer = threading.Timer(120.0,send_sms,[Class]) 
+            timer.start()
+#MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM            
+            
     elif FLAG==0:
         student_id=studentprofile.objects.filter(RFID=RFID).values_list('user_id',flat=True)[0]
         if not student_id:
@@ -42,10 +50,12 @@ def save(request):
             obj.FLAG =False
             obj.Class = classes.objects.get(id=Class)
             obj.save()
-            print("save2")
+            print("Student has entered")
     else:
         print("Something Wrong with Card!!!")
     return HttpResponse("Added")
+    
+    
 @csrf_exempt    
 def Apply(request):
     RFID=request.POST['RFID'][1:9]
@@ -67,14 +77,20 @@ def Apply(request):
             O.entry_time = student.date_time
             O.date_time=student.date_time-timedelta(minutes=student.date_time.minute,seconds=student.date_time.second)
             O.save()
-            student.delete()
     elif FLAG==0:
         student_id=studentprofile.objects.filter(RFID=RFID).values_list('user_id',flat=True)[0]
         temp_attendance.objects.filter(User=student_id,Class=Class).delete()
-    return HttpResponse("hugy")
+    return HttpResponse("hurry")
             
-            
-            
+##########################################            
+def send_sms(Class):
+    q=(Q(Class=Class)&Q(FLAG=0)) #remove class if not working
+    c=temp_attendance.objects.filter(q).count()
+    msg= "student count = " + str(c)
+    q=way2sms.Sms('8554093340','Abhishek123')
+    q.send('8554093340',msg)
+    q.logout()
+##################################
             
             
             

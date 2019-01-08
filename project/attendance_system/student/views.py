@@ -11,11 +11,14 @@ from django.contrib.auth.decorators import login_required
 import student.forms as forms 
 from django.db.models import Q
 from attendance.models import attendance
+from temp_att.models import temp_attendance
 from .functions import *
 import statistics
 import plotly.offline as py
 import plotly.graph_objs as go
 import json
+import threading
+
 # Create your views here.
 @login_required
 def edit_Sprofile(request,pk):
@@ -40,6 +43,7 @@ def edit_Sprofile(request,pk):
                 return render(request,'student/edit.html',{'form':form})
 
 def new_studentform(request):
+    print(request.META)
     user_form=GenericCreationForm()
     profileinlineformset= inlineformset_factory(User,studentprofile,fields=('image','mobile_number','parents_number','department','semester','dob','address','roll_no','batch','Class','subject'),widgets={'subject':f.CheckboxSelectMultiple(attrs={'class':'checkbox'})})             
     formset=profileinlineformset()
@@ -82,8 +86,15 @@ def dashboard_analysis(request,pk):
         student=User.objects.get(pk=pk)
         StudentProfile=studentprofile.objects.get(user=student)
         for sub in StudentProfile.subject.all():
-            q=(Q(subject=sub)&Q(student=StudentProfile.user_id))
+            q=(Q(subject=sub)&Q(student=StudentProfile.user_id)&Q(Class=StudentProfile.Class))
             att_count=attendance.objects.filter(q).count()
+            time_list=[]
+            att_list=attendance.objects.filter(q).values_list('date_time',flat=True)
+            for time in att_list:
+                time=time-timedelta(seconds=time.second,minutes=time.minute)
+                if time not in time_list:
+                    time_list.append(time)
+            len(time_list)
             att_total=totalatt(sub,StudentProfile.Class)
             percent=round(att_count/(att_total+0.00001)*100)
             total_percent.append(percent)
@@ -91,9 +102,14 @@ def dashboard_analysis(request,pk):
             data.append(l)
         all_subjects_total=statistics.mean(total_percent)
         graph=piechart(StudentProfile)
-        return render(request,'student/dashboard/analysis.html',{'student':student,'StudentProfile':StudentProfile,'data':data,'all_subjects_total':all_subjects_total,'graph':graph})
+        graph2=bar_graph(data)
         
+        return render(request,'student/dashboard/analysis.html',{'student':student,'StudentProfile':StudentProfile,'data':data,'all_subjects_total':all_subjects_total,'graph':graph,'graph2':graph2})
+
         
     else:
         return HttpResponse("Bad Url!!!")
+        
+    
+    
         

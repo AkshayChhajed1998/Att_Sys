@@ -5,11 +5,13 @@ from django.contrib.auth import login,logout,authenticate
 from django.shortcuts import redirect,render,HttpResponse
 from attendance_system.err import err
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 
 
 # Create your views here.
 def Login(request):
+    print(request.body)
     if request.method == "POST" : 
         user=authenticate(request,username=request.POST.get("username"),password=request.POST.get("password"))
         if user is not None:

@@ -95,6 +95,8 @@ def update(request):
     status=request.POST['status'][0]
     Class=request.POST['Class'][0]
     sub=request.POST['subject'][0]
+    
+    
     if status=='A':
         q1=Q(entry_time__gte=Date) & Q(entry_time__lt=Date-timedelta(seconds=Date.second,minutes=Date.minute)+timedelta(hours=1))
         attendance.objects.filter(q1,student=studentprofile.objects.filter(roll_no=rollno)[0],Class=classes.objects.filter(id=Class)[0])[0].delete()
