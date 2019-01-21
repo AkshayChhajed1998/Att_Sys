@@ -8,5 +8,3 @@
  <h6>5] Also, contains API's for communicating with Android Application(This Feature is under development)</h6>
  
  *The Android App for the same web application is linked here(The App is under Development):https://github.com/AkshayChhajed1998/SAS_app
-
-<h4>Steps for setting up our hardware system for capturing attendance</h4>
